@@ -11,6 +11,7 @@ The ELK stack requires Java 8 to be installed. Check the java version first, if 
 *java -version*
 
 Otherwise install java 8 using below commands
- sudo apt-get install openjdk-8-jdk
+
+*sudo apt-get install openjdk-8-jdk*
 
 If prompted, type y and hit the Enter for process to finish. 
