@@ -37,16 +37,39 @@ We will add ** Elastic Repository **
 it enable us to have the access to ELK stack. 
 
 * We will import PGP key and install apt-transport-https package. then we will add elastic repository to our system repository list: Run the following commands one by one: 
+
+```wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - 
 ```
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - 
+```sudo apt-get install apt-transport-https
 ```
+```echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list 
 ```
-sudo apt-get install apt-transport-https
+## Install ElasticSearch
+
+We will update the repositories and install ElasticSearch. Run the command one by one:
+
+```sudo apt-get update
 ```
+```sudo apt-get install elasticsearch
 ```
-echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list 
+## configure ElasticSearch
+
+We configure Elasticsearch based on our need. We are updating here based on our basic need that includes, fetching logs from filebeat from client machine and ship that logs to logstash. logstash aggregates the data process it and sends all data to Elasticsearch where indexing and storage is done. then it will send to kibana to create dashboards. apart from this, we are gonna raise the alert for exceeding the matching pattern or keywords and we will configure curator too that will delete the older logs so that it doesnt overburden our system. 
+
+We have commit how to do everything. if it helps go through all other commits too. 
+
+so coming back to ElasticSearch configuration: 
+
+We will configure the file on the given path. We will run the command in command line. 
 
 ```
+sudo nano /etc/elasticsearch/elasticsearch.yml
+```
+* Here we will see a file with different entries and descriptions. this is an yml file, here the line that starts with # means these are in comment. While executing these commands are exempted. We can uncomment them by removing '#'. 
+
+**what i am going to write here, is only uncomment section that I have in my file for making it work. you can configure it based on your needs.**
+
+
 
 
 
