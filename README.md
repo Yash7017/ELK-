@@ -6,17 +6,20 @@ We will be doing it in different repositories and setup for our VM.
 
 First of all we will configure dependencies before setting up Elasticsearch. Dependencies include openjdk and nginx. 
 
-***Note: All Text written in italic should be executed in linux command line.*
+***Note: All Text written in copy file should be executed in command line*
 
 **java version -**
 
 The ELK stack requires Java 8 to be installed. Check the java version first, if it indicates java is installed then ok.  
+```
+java -version
 
-*java -version*
-
+```
 Otherwise install java 8 using below commands
+```
+sudo apt-get install openjdk-8-jdk
 
-*sudo apt-get install openjdk-8-jdk*
+```
 
 If prompted, type y and hit the Enter for process to finish. 
 
@@ -25,8 +28,10 @@ If prompted, type y and hit the Enter for process to finish.
 Nginx works as a web server and proxy server. it's used to configure pasword-controlled access to the kibana dashbaord. 
 
 Install Nginx by entering: 
+```
+sudo apt-get install nginx
 
-*sudo apt-get install nginx*
+```
 
 ## Now we will start configuration for Elastic search
 
@@ -38,21 +43,31 @@ it enable us to have the access to ELK stack.
 
 * We will import PGP key and install apt-transport-https package. then we will add elastic repository to our system repository list: Run the following commands one by one: 
 
-```wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - 
 ```
-```sudo apt-get install apt-transport-https
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - 
+
 ```
-```echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list 
+```
+sudo apt-get install apt-transport-https
+
+```
+```
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list 
+
 ```
 ## Install ElasticSearch
 
 We will update the repositories and install ElasticSearch. Run the command one by one:
 
-```sudo apt-get update
 ```
-```sudo apt-get install elasticsearch
+sudo apt-get update
+
 ```
-## configure ElasticSearch
+```
+sudo apt-get install elasticsearch
+
+```
+## Configure ElasticSearch
 
 We configure Elasticsearch based on our need. We are updating here based on our basic need that includes, fetching logs from filebeat from client machine and ship that logs to logstash. logstash aggregates the data process it and sends all data to Elasticsearch where indexing and storage is done. then it will send to kibana to create dashboards. apart from this, we are gonna raise the alert for exceeding the matching pattern or keywords and we will configure curator too that will delete the older logs so that it doesnt overburden our system. 
 
