@@ -138,6 +138,8 @@ http://public-ip:5601
 ```
 **If you are receiving kibana server not ready error, then check if Elasticsearch and kibana services are active or not. you can run the command *service elasticsearch status* and *service kibana status* to check.**
 
+## Before starting Logstash configuration, you need to setup your filebeat on client side from where you want to fetch the logs. Only then you will be able to setup Logstash. you can upgrade your logstash configuration anytime if your client sides add on or you need to change the logs or path. For filebeat configuration, i have another repository, go through that and complete your Filebeat setup. 
+
 # Install Logstash
 
 We will first install the logstash then start the logstash service. Run the following command one by one. 
