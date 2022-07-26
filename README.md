@@ -176,6 +176,6 @@ vim rules.conf
 ```
 Here, we will update our basic configuratin. we can save the file pressing esc+shift and at the same time pressing z for two time. 
 
-### **Here we will update our grok patterns based on the logs that we are receving through filebeat. I have attached a file in code for you to try which pattern match your logs. then you can add on your grok pattern in the given configuration. for example here, I have attached just two Grok patterns, you can add as many you need for your log files.**
-## **Apart from that, your fileds=> log_type name should be match as same in the filebeat.yaml file. it is the index name that you will see on your kibana dashboard as your logs identiy. to try to keep it unique.**
+###### **Here we will update our grok patterns based on the logs that we are receving through filebeat. I have attached a file in code for you to try which pattern match your logs. then you can add on your grok pattern in the given configuration. for example here, I have attached just two Grok patterns, you can add as many you need for your log files.**
+###### **Apart from that, your fileds=> log_type name should be match as same in the filebeat.yaml file. it is the index name that you will see on your kibana dashboard as your logs identiy. to try to keep it unique.**
 
