@@ -178,7 +178,7 @@ vim rules.conf
 ```
 Here, we will update our basic configuratin. we can save the file pressing esc+shift and at the same time pressing z for two time. 
 
-###### **Here we will update our grok patterns based on the logs that we are receving through filebeat. I have attached a file in code for you to try which pattern match your logs. then you can add on your grok pattern in the given configuration. for example here, I have attached just two Grok patterns, you can add as many you need for your log files.**
+###### **Here we will update our grok patterns based on the logs that we are receving through filebeat. I have attached a file in code for you to try which pattern match your logs. then you can add on your grok pattern in the given configuration. I have attached few ways to write Grok patterns for exampels, you can add as many you need for your log files.**
 ###### **Apart from that, your fileds=> log_type name should be match as same in the filebeat.yaml file. it is the index name that you will see on your kibana dashboard as your logs identiy. to try to keep it unique.**
 **change private-ip and public ip based on your master ip.**
 
@@ -195,13 +195,77 @@ if [fields][log_type]== "access"
 { 
 grok { 
 break_on_match => false 
-match => { "message" => "\(%{IPORHOST:clientip}\) (?:-|(%{WORD}.%{WORD})) % {USER:ident} \[%{HTTPDATE:timestamp}\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})? |%{DATA:rawrequest})\" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}" }
+match => { "message" => "\(%{IPORHOST:clientip}\) (?:-|(%{WORD}.%{WORD})) % {USER:ident} \[%{HTTPDATE:timestamp}\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})? |%{DATA:rawrequest})\" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}" 
+}
+} 
+} 
 
-#remove_field => "message"
+else if [fields][log_type] == "errors"
+{ 
+grok{ 
+break_on_match => false 
+match => { "message" => "(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*% {NUMBER:connectionid} %{GREEDYDATA:message}" } 
+}
+} 
 
-9 } } else if [fields][log_type] == "errors"{ grok{ break_on_match => false match => { "message" => "(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*% {NUMBER:connectionid} %{GREEDYDATA:message}" } } } else if [fields][log_type] == "live2access" { grok{ break_on_match => false match => { "message" => '%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[% {HTTPDATE:timestamp}\] " (? :%{WORD:verb} %{NOTSPACE:request}(? : HTTP/% {NUMBER:httpversion})? |%{DATA:rawrequest})" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}' } } geoip{ source => "clientip" } mutate{ add_field => {"website" => "example2.com"} } }
+else if [fields][log_type] == "live2access" 
+{ 
+grok{ 
+break_on_match => false 
+match => { "message" => '%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[% {HTTPDATE:timestamp}\] " (? :%{WORD:verb} %{NOTSPACE:request}(? : HTTP/% {NUMBER:httpversion})? |%{DATA:rawrequest})" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}' 
+} 
+} 
+geoip{ 
+source => "clientip" 
+} 
+mutate{ 
+add_field => {"website" => "example2.com"} 
+} 
+}
 
-output { elasticsearch {
+else if [fields][log_type] == "live3access" 
+{ 
+grok{ 
+break_on_match => true 
+match => { "message" => '%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[% {HTTPDATE:timestamp}\] " (? :%{WORD:verb} %{NOTSPACE:request}(? : HTTP/% {NUMBER:httpversion})? |%{DATA:rawrequest})" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}' 
+} 
+match => { "message" => "(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*% {NUMBER:connectionid} %{GREEDYDATA:message}" 
+}
+match => { "message" => "(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*% {NUMBER:connectionid} %{GREEDYDATA:message}" 
+}
+} 
+geoip{ 
+source => "clientip" 
+} 
+mutate{ 
+add_field => {"website" => "example3.com"} 
+} 
+}
 
-10 hosts => ["http://private-ip:9200"] sniffing => true manage_template => false ilm_enabled => false index => "%{[fields][log_type]}" } stdout { codec => rubydebug } }
+output 
+{ 
+elasticsearch 
+{
+hosts => ["http://private-ip:9200"] 
+sniffing => true 
+manage_template => false 
+ilm_enabled => false 
+index => "%{[fields][log_type]}" } 
+stdout { codec => rubydebug } 
+}
 ```
+
+###### Important Note: Here after matche there is written grok patterns. these are just to understand how you can write them. We will see them one by one. 
+
+**For access and error logs** It will take all logs with single pattern if anything that doesn't match that pattern it will leave that logs.  
+**For live2access log** We have added geoip and mutate. geo ip is used when we want for logs to visualize from which country and city logs are coming. and mutate is to add on an additional column on our log. it is like giving another identity to logs that will be visible on kibana dashboard column. 
+**For live3access log** When we have multiple log files in a folder that we are fetching and all logs have differnt patterns so we write many patterns like this whichever it matches, matching loop breaks and it start matching another log. that's why we have edited the setting break on match to true. 
+
+###### Go through the grok patterns file and match which pattern match your logs. if it doesn't matches then break your logs in part and try putting the patterns in parts to match the log patter or you can find a lot of patterns on stackoverflow,elasticdiscuss,github and many more places. 
+
+# Unable the X-pack to setup the password for kibana dashboard. 
+
+While creating dashboard for specific user X-pack help us to setup the password for specific users with username and password. So if you have need for specific dashboards for users. you should configure the X-pack setup. 
+
+
+
