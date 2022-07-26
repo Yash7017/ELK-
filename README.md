@@ -136,4 +136,35 @@ To access the kibana open your browser and brose to the following address: edit 
 ```
 http://public-ip:5601
 ```
-**If you are receiving kibana server not ready error, then check if Elasticsearch and kibana services are active or not. you can run the command *service elasticsearch status* and *service kibana status* to check. **
+**If you are receiving kibana server not ready error, then check if Elasticsearch and kibana services are active or not. you can run the command *service elasticsearch status* and *service kibana status* to check.**
+
+# Install Logstash
+
+We will first install the logstash then start the logstash service. Run the following command one by one. 
+```
+sudo apt-get install logstash
+```
+```
+sudo systemctl start logstash
+```
+```
+sudo systemctl enable logstash
+```
+
+We can check the status of logstash through following command. 
+```
+sudo systemctl status logstash
+```
+**press ctrl+c to exit it.**
+
+# Logstash configuration 
+
+This is a little tricky part here. Here we collect the log and ships the logs to elasticsearch for storage. While collecting the logs we receive the logs in a pattern so that while visulizing we can utilize the details that we need. that patterns are called grok pattern here. we create our grok pattern through our logs based on our need on following website.  
+
+* https://grokdebug.herokuapp.com
+
+Mostly we can configure it by putting our logs in input and pregiven patterns on various website for particular logs like access, error, mysql, nginx and many more. I have attached as many as patterns i came through, you can try if that works for you.
+
+**Now first we will see our basic required configuration. then we will see all the grok patterns for you to try**
+
+
