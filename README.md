@@ -13,12 +13,10 @@ First of all we will configure dependencies before setting up Elasticsearch. Dep
 The ELK stack requires Java 8 to be installed. Check the java version first, if it indicates java is installed then ok.  
 ```
 java -version
-
 ```
 Otherwise install java 8 using below commands
 ```
 sudo apt-get install openjdk-8-jdk
-
 ```
 
 If prompted, type y and hit the Enter for process to finish. 
@@ -30,7 +28,6 @@ Nginx works as a web server and proxy server. it's used to configure pasword-con
 Install Nginx by entering: 
 ```
 sudo apt-get install nginx
-
 ```
 
 ## Now we will start configuration for Elastic search
@@ -45,15 +42,12 @@ it enable us to have the access to ELK stack.
 
 ```
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - 
-
 ```
 ```
 sudo apt-get install apt-transport-https
-
 ```
 ```
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list 
-
 ```
 ## Install ElasticSearch
 
@@ -61,11 +55,9 @@ We will update the repositories and install ElasticSearch. Run the command one b
 
 ```
 sudo apt-get update
-
 ```
 ```
 sudo apt-get install elasticsearch
-
 ```
 ## Configure ElasticSearch
 
@@ -82,9 +74,25 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 ```
 * Here we will see a file with different entries and descriptions. this is an yml file, here the line that starts with # means these are in comment. While executing these commands are exempted. We can uncomment them by removing '#'. 
 
-**what i am going to write here, is only uncomment section that I have in my file for making it work. you can configure it based on your needs.**
+**what i am going to write here, is only uncomment section that I have in my file for making it work. you can configure it based on your needs. copy this and paste this in our elasticsearch.yml file. and exit the file with saving it. you can press ctrl+c and then follow the command in footer to save the file.**
 
+```
+cluster.name: my-application 
+node.name: internal-tmp-kbmax 
+path.data: /var/lib/elasticsearch 
+path.logs: /var/log/elasticsearch 
+network.host: "master server ip" 
+http.port: 9200
+cluster.initial_master_nodes: ["master server private ip"]
+```
+*Here we update master server private ip with our system private ip on which we are installing our ELK setup*
 
+## Start Elasticsearch 
+
+We will run this command to start Elasticsearch. This command will not give any output if successful. 
+```
+sudo systemctl start elasticsearch.service 
+```
 
 
 
