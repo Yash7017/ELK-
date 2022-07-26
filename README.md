@@ -30,5 +30,21 @@ Install Nginx by entering:
 
 ## Now we will start configuration for Elastic search
 
-** Before going for ELK setup, one thing need to keep in mind that we install all packages of Elastic search, kibana, logstash and filebeat. after checking their compatablity through given link https://www.elastic.co/support/matrix ***
+** Before going for ELK setup, one thing need to keep in mind that we install all packages of Elastic search, kibana, logstash and filebeat. after checking their compatablity through given link https://www.elastic.co/support/matrix **
+
+We will add ** Elastic Repository **
+
+it enable us to have the access to ELK stack. 
+
+* We will import PGP key and install apt-transport-https package. then we will add elastic repository to our system repository list: Run the following commands one by one: 
+
+* wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - *
+
+* sudo apt-get install apt-transport-https
+
+* echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list *
+
+
+
+
 
