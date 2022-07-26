@@ -94,5 +94,28 @@ We will run this command to start Elasticsearch. This command will not give any 
 sudo systemctl start elasticsearch.service 
 ```
 
+# Install Kibana 
 
+We will install the kibana by running following command. 
+```
+sudo apt-get install kibana
+```
+```
+### We will configure the kibana yml file like we did for Elasticsearch. 
+Run command to edit the kibana yml. 
+```
+sudo nano /etc/kibana/kibana.yml
+```
+**Copy and paste given configuration in your kibana.yml file. update your public and private ip for the machine where you are installing your ELK setup. Apart from these configuration all lines are commented in my kibana yml file. you can edit based on your need.**
+```
+server.port: 5601
+
+server.host: "internal-tmp-kbmax.com"
+
+server.publicBaseUrl: http://*Public-ip*:5601
+
+elasticsearch.hosts: ["http://*privateip*:9200"]
+
+xpack.monitoring.ui.container.elasticsearch.enabled: true
+```
 
