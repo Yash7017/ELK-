@@ -100,7 +100,7 @@ We will install the kibana by running following command.
 ```
 sudo apt-get install kibana
 ```
-```
+
 ### We will configure the kibana yml file like we did for Elasticsearch. 
 Run command to edit the kibana yml. 
 ```
