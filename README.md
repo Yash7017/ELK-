@@ -119,3 +119,20 @@ elasticsearch.hosts: ["http://*privateip*:9200"]
 xpack.monitoring.ui.container.elasticsearch.enabled: true
 ```
 
+*Save the file like previous time and start the kibana service by following command.*
+```
+sudo systemctl start kibana
+```
+we will run two more commands one by one to configure kibana to launch at boot and another one is for allow traffic on port 5601. 
+```
+sudo systemctl enable kibana
+```
+```
+sudo ufw allow 5601/tcp
+```
+## Test Kibana
+
+To access the kibana open your browser and brose to the following address: edit your public-IP of the system on which you are running your ELK. 
+```
+http://*public-ip*:5601
+```
