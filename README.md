@@ -180,4 +180,28 @@ Here, we will update our basic configuratin. we can save the file pressing esc+s
 
 ###### **Here we will update our grok patterns based on the logs that we are receving through filebeat. I have attached a file in code for you to try which pattern match your logs. then you can add on your grok pattern in the given configuration. for example here, I have attached just two Grok patterns, you can add as many you need for your log files.**
 ###### **Apart from that, your fileds=> log_type name should be match as same in the filebeat.yaml file. it is the index name that you will see on your kibana dashboard as your logs identiy. to try to keep it unique.**
+**change private-ip and public ip based on your master ip.**
 
+```
+input { 
+beats { 
+port => 5044 
+host => "Private-ip"
+}
+} 
+
+filter {
+if [fields][log_type]== "access"
+{ 
+grok { 
+break_on_match => false 
+match => { "message" => "\(%{IPORHOST:clientip}\) (?:-|(%{WORD}.%{WORD})) % {USER:ident} \[%{HTTPDATE:timestamp}\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})? |%{DATA:rawrequest})\" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}" }
+
+#remove_field => "message"
+
+9 } } else if [fields][log_type] == "errors"{ grok{ break_on_match => false match => { "message" => "(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*% {NUMBER:connectionid} %{GREEDYDATA:message}" } } } else if [fields][log_type] == "live2access" { grok{ break_on_match => false match => { "message" => '%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[% {HTTPDATE:timestamp}\] " (? :%{WORD:verb} %{NOTSPACE:request}(? : HTTP/% {NUMBER:httpversion})? |%{DATA:rawrequest})" %{NUMBER:response} (? :% {NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}' } } geoip{ source => "clientip" } mutate{ add_field => {"website" => "example2.com"} } }
+
+output { elasticsearch {
+
+10 hosts => ["http://private-ip:9200"] sniffing => true manage_template => false ilm_enabled => false index => "%{[fields][log_type]}" } stdout { codec => rubydebug } }
+```
