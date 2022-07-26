@@ -38,11 +38,11 @@ it enable us to have the access to ELK stack.
 
 * We will import PGP key and install apt-transport-https package. then we will add elastic repository to our system repository list: Run the following commands one by one: 
 
-* wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - *
+1. * wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - *
 
-* sudo apt-get install apt-transport-https
+2. * sudo apt-get install apt-transport-https
 
-* echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list *
+3. * echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list *
 
 
 
