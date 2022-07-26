@@ -134,5 +134,6 @@ sudo ufw allow 5601/tcp
 
 To access the kibana open your browser and brose to the following address: edit your public-IP of the system on which you are running your ELK. 
 ```
-http://*public-ip*:5601
+http://public-ip:5601
 ```
+**If you are receiving kibana server not ready error, then check if Elasticsearch and kibana services are active or not. you can run the command *service elasticsearch status* and *service kibana status* to check. **
