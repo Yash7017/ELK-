@@ -165,6 +165,17 @@ This is a little tricky part here. Here we collect the log and ships the logs to
 
 Mostly we can configure it by putting our logs in input and pregiven patterns on various website for particular logs like access, error, mysql, nginx and many more. I have attached as many as patterns i came through, you can try if that works for you.
 
-**Now first we will see our basic required configuration. then we will see all the grok patterns for you to try**
+**Now first we will see our basic required configuration. I have attached all the grok patterns in file name grok pattern. you can find that there.**
 
+All custom logstash configuration files are stored on the path */etc/logstash/conf.d/.*. we will create a custom file there and update that file with our basic configuration. you can run the following command one by one. 
+```
+cd /etc/logstash/conf.d
+```
+```
+vim rules.conf
+```
+Here, we will update our basic configuratin. we can save the file pressing esc+shift and at the same time pressing z for two time. 
+
+### **Here we will update our grok patterns based on the logs that we are receving through filebeat. I have attached a file in code for you to try which pattern match your logs. then you can add on your grok pattern in the given configuration. for example here, I have attached just two Grok patterns, you can add as many you need for your log files.**
+## **Apart from that, your fileds=> log_type name should be match as same in the filebeat.yaml file. it is the index name that you will see on your kibana dashboard as your logs identiy. to try to keep it unique.**
 
