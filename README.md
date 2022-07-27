@@ -288,8 +288,9 @@ https://www.youtube.com/watch?v=E-kwK88Vxzk
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
 ```
-```
+
 **For kibana you can add like this anywhere in the file : Don't copy paste this username and password, update it based on your username and password**
+```
 elasticsearch.username: "kibana_system"
 elasticsearch.password: "fslsadfkjdshfkjshfkas"
 ````
