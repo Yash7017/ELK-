@@ -263,6 +263,13 @@ stdout { codec => rubydebug }
 
 ###### Go through the grok patterns file and match which pattern match your logs. if it doesn't matches then break your logs in part and try putting the patterns in parts to match the log patter or you can find a lot of patterns on stackoverflow,elasticdiscuss,github and many more places. 
 
+# Start Logstash
+
+```
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/nginx.conf --path.settings=/etc/logstash/
+```
+Here we are giving our configuration file path after -f. if your config file is located somewhere else then update based on your need. 
+
 # Enable the X-pack to setup the password for kibana dashboard. 
 
 While creating dashboard for specific user X-pack help us to setup the password for specific users with username and password. So if you have need for specific dashboards for users. you should configure the X-pack setup. 
@@ -271,5 +278,32 @@ While creating dashboard for specific user X-pack help us to setup the password 
 You can follow this tutorial from youtube for x-pack security. Follow it through out. if you are not able to edit the file in vs-code. edit it in yml file itself. 
 
 https://www.youtube.com/watch?v=E-kwK88Vxzk
+
+**You will have to update Username and password in all of your ELK setup after configuring X-pack. I have put the dummy password here. you can give based on your configuration. I have wrote where you need to add and in which way.**
+
+###### For ELK setup 
+
+**For Elasticsearch you can add like this anywhere in the file: These two lines should be there in your Elasticsearch.yml file**
+```
+xpack.security.enabled: true
+xpack.security.transport.ssl.enabled: true
+```
+```
+**For kibana you can add like this anywhere in the file : Don't copy paste this username and password, update it based on your username and password**
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "fslsadfkjdshfkjshfkas"
+````
+This one line should be there in your kibana configuration. 
+```
+xpack.monitoring.ui.container.elasticsearch.enabled: true
+```
+
+**For elastalert you can add like this anywhere in file: Don't copy paste this username and password, update it based on your username and password**
+```
+es_username: "elastic"
+es_password: "sgsdHRWsdfsdklfjlk78"
+```
+
+
 
 
