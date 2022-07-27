@@ -1,0 +1,75 @@
+var/log/nginx logs 
+
+________________________________________________
+
+access.log
+
+\(%{IPORHOST:clientip}\) (?:-|(%{WORD}.%{WORD})) %{USER:ident} \[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}
+_____________________________________________________________________________________________________________
+var/log/elasticsearch 
+
+\[%{TIMESTAMP_ISO8601:timestamp}\]\[%{DATA:severity}%{SPACE}\]\[%{DATA:source}%{SPACE}\]%{SPACE}(?<message>(.|\r|\n)*)
+
+_________________________________________________________________________________
+
+var/log/redis
+
+%{POSINT:redis_pid}:[A-Z] %{MONTHDAY} %{MONTH} %{YEAR} %{HOUR}:%{MINUTE}:%{SECOND} [#*] %{GREEDYDATA:log_message}
+
+______________________________________________________________________________
+
+var/log
+
+
+
+%{DATA:info} %{TIMESTAMP_ISO8601:timestamp}:%{GREEDYDATA:log_message}
+
+
+%{SYSLOGBASE} %{GREEDYDATA:logline}
+
+
+%{DATA:info} %{DATA:v} %{DATA:version} %{DATA:status} %{DATA:raise} %{DAY}, %{MONTHDAY} %{MONTH} %{YEAR} (?!<[0-9])%{HOUR}:%{MINUTE}(?::%{SECOND})(?![0-9]) %{GREEDYDATA:log_message}
+
+
+%{TIMESTAMP_ISO8601:timestamp}%{DATA:severity}: %{DATA:info}:%{DATA:information}:%{GREEDYDATA:log_message}
+
+
+%{TIMESTAMP_ISO8601:timestamp} %{WORD:status} %{GREEDYDATA:log_message}
+
+
+%{DAY} %{MONTH} %{MONTHDAY} (?!<[0-9])%{HOUR}:%{MINUTE}(?::%{SECOND})(?![0-9]) %{YEAR} %{DATA:issue} %{GREEDYDATA:log_message}
+
+
+\[%{MONTHDAY:day}-%{MONTH:month}-%{YEAR:year} %{TIME:time}] %{DATA:severity}:%{DATA:message}]%{GREEDYDATA:error}
+
+
+%{TIMESTAMP_ISO8601:timestamp} %{DATA:severity} %{GREEDYDATA:log_message}
+_________________________________________________________________________________
+
+/var/www/html
+
+
+\[%{TIMESTAMP_ISO8601:timestamp}\] %{DATA:env}\.%{DATA:severity}: %{DATA:message}
+
+________________________________________________________________________________
+
+Error logs
+
+(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*%{NUMBER:connectionid} %{GREEDYDATA:errormessage}, client: %{IP:client}, server: %{GREEDYDATA:server}, request: "(?<httprequest>%{WORD:httpcommand} %{UNIXPATH:httpfile} HTTP/(?<httpversion>[0-9.]*))"(, )?(upstream: "(?<upstream>[^,]*)")?(, )?(host: "(?<host>[^,]*)")?
+
+(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*%{NUMBER:connectionid} 
+
+(?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER:threadid}\: \*%{NUMBER:connectionid} %{GREEDYDATA:message}, client: %{IP:client}, server: %{GREEDYDATA:server}, request: "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion}))", host: %{GREEDYDATA:host}
+
+___________________________________________________________________
+
+var/log/php logs
+
+\[%{MONTHDAY:day}-%{MONTH:month}-%{YEAR:year} %{TIME:time}] %{DATA:severity}:%{DATA:message}]%{GREEDYDATA:error}
+
+____________________________________________________________________________________
+
+\"%{WORD:http_method} %{DATA:url} HTTP/%{NUMBER:http_version}\" %{NUMBER:response_code} %{NUMBER:body_sent_bytes} \"%{DATA:referrer}\" \"%{DATA:agent}\"
+
+
+
