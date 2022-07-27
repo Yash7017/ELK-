@@ -263,7 +263,7 @@ stdout { codec => rubydebug }
 
 ###### Go through the grok patterns file and match which pattern match your logs. if it doesn't matches then break your logs in part and try putting the patterns in parts to match the log patter or you can find a lot of patterns on stackoverflow,elasticdiscuss,github and many more places. 
 
-# Unable the X-pack to setup the password for kibana dashboard. 
+# Enable the X-pack to setup the password for kibana dashboard. 
 
 While creating dashboard for specific user X-pack help us to setup the password for specific users with username and password. So if you have need for specific dashboards for users. you should configure the X-pack setup. 
 
