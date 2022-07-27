@@ -268,4 +268,8 @@ stdout { codec => rubydebug }
 While creating dashboard for specific user X-pack help us to setup the password for specific users with username and password. So if you have need for specific dashboards for users. you should configure the X-pack setup. 
 
 
+You can follow this tutorial from youtube for x-pack security. Follow it through out. if you are not able to edit the file in vs-code. edit it in yml file itself. 
+
+https://www.youtube.com/watch?v=E-kwK88Vxzk
+
 
